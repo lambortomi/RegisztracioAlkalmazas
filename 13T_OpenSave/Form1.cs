@@ -17,6 +17,7 @@ namespace _13T_OpenSave
         {
             InitializeComponent();
             openFileDialog1.FileOk += (sender, e) =>
+
             {
                 try
                 {
@@ -34,7 +35,12 @@ namespace _13T_OpenSave
 
                     MessageBox.Show("Hiba! Nem Sikerült a betöltés!");
                 }
+
             };
+
+            lista.Items.Add("Úszás");
+            lista.Items.Add("Horgászat");
+            lista.Items.Add("Futás");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -56,7 +62,19 @@ namespace _13T_OpenSave
         private void button1_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "Text file|*.txt|All files|*.*";
-            saveFileDialog1.ShowDialog();
+
+            if (!text.Text.Equals("") &&
+                !dateTimePickerszuldat.Text.Equals("") &&
+                (Fb.Checked || Nb.Checked)
+                && lista.SelectedItem != null)
+            {
+                saveFileDialog1.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Ha üresen hagy mezőt, baj lesz! Irgum Burgum!");
+            }
+
         }
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -65,10 +83,17 @@ namespace _13T_OpenSave
             {
                 using (var sw = new StreamWriter(saveFileDialog1.FileName))
                 {
-                    foreach (var item in lista.Items)
+                    sw.WriteLine(text.Text);
+                    sw.WriteLine(dateTimePickerszuldat.Text);
+                    if (Fb.Checked)
                     {
-                        sw.WriteLine(item); 
+                        sw.WriteLine("F");
                     }
+                    if (Nb.Checked)
+                    {
+                        sw.WriteLine("N");
+                    }
+                    sw.WriteLine(lista.SelectedItem);
                 }
             }
             catch (IOException)
@@ -76,6 +101,7 @@ namespace _13T_OpenSave
 
                 MessageBox.Show("Hiba. Sikertelen mentés");
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -85,12 +111,94 @@ namespace _13T_OpenSave
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-
+            try
+            {
+                using (var sr = new StreamReader(openFileDialog1.FileName))
+                {
+                    lista.Items.Clear();
+                    lista.Items.Add("Uszás");
+                    lista.Items.Add("Horgászat");
+                    lista.Items.Add("Futás");
+                    text.Text = sr.ReadLine();
+                    dateTimePickerszuldat.Text = sr.ReadLine();
+                    var nem = sr.ReadLine();
+                    if (nem.Equals("F"))
+                    {
+                        Nb.Checked = false;
+                        Fb.Checked = true;
+                    }
+                    if (nem.Equals("N"))
+                    {
+                        Fb.Checked = false;
+                        Nb.Checked = true;
+                    }
+                    var kedvencHobbi = sr.ReadLine();
+                    if (lista.Items.Contains(kedvencHobbi))
+                    {
+                        lista.SelectedItem = kedvencHobbi;
+                    }
+                    else
+                    {
+                        lista.Items.Add(kedvencHobbi);
+                        lista.SelectedItem = kedvencHobbi;
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Hiba sikertelen mentés!");
+            }
         }
 
         private void lszuldat_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lista_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnHozzaad_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+                if (!textBox2.Text.Trim().Equals(""))
+                {
+                    if (!lista.Items.Contains(textBox2.Text))
+                    {
+                        lista.Items.Add(textBox2.Text);
+                        textBox2.Text = "";
+                    }
+
+                }
+            }
+        }
+
+        private void btnHozzaad_Click(object sender, EventArgs e)
+        {
+            if (!textBox2.Text.Trim().Equals(""))
+            {
+                if (!lista.Items.Contains(textBox2.Text))
+                {
+                    lista.Items.Add(textBox2.Text);
+                    textBox2.Text = "";
+                }
+
+            }
+            
         }
     }
 }

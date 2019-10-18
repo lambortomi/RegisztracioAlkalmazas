@@ -34,15 +34,16 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.text = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.Fb = new System.Windows.Forms.RadioButton();
-            this.Rb = new System.Windows.Forms.RadioButton();
+            this.Nb = new System.Windows.Forms.RadioButton();
             this.lNev = new System.Windows.Forms.Label();
             this.btnHozzaad = new System.Windows.Forms.Button();
             this.lszuldat = new System.Windows.Forms.Label();
             this.lnem = new System.Windows.Forms.Label();
             this.lkedvenhobbi = new System.Windows.Forms.Label();
+            this.dateTimePickerszuldat = new System.Windows.Forms.DateTimePicker();
+            this.lujhobbi = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // saveFileDialog1
@@ -60,10 +61,11 @@
             this.lista.Name = "lista";
             this.lista.Size = new System.Drawing.Size(120, 95);
             this.lista.TabIndex = 0;
+            this.lista.SelectedIndexChanged += new System.EventHandler(this.lista_SelectedIndexChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(305, 272);
+            this.button1.Location = new System.Drawing.Point(315, 272);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -90,19 +92,14 @@
             this.text.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.text.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_KeyDown);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(305, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 4;
-            // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(440, 206);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 5;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // Fb
             // 
@@ -115,16 +112,16 @@
             this.Fb.Text = "F";
             this.Fb.UseVisualStyleBackColor = true;
             // 
-            // Rb
+            // Nb
             // 
-            this.Rb.AutoSize = true;
-            this.Rb.Location = new System.Drawing.Point(372, 102);
-            this.Rb.Name = "Rb";
-            this.Rb.Size = new System.Drawing.Size(33, 17);
-            this.Rb.TabIndex = 7;
-            this.Rb.TabStop = true;
-            this.Rb.Text = "R";
-            this.Rb.UseVisualStyleBackColor = true;
+            this.Nb.AutoSize = true;
+            this.Nb.Location = new System.Drawing.Point(372, 102);
+            this.Nb.Name = "Nb";
+            this.Nb.Size = new System.Drawing.Size(33, 17);
+            this.Nb.TabIndex = 7;
+            this.Nb.TabStop = true;
+            this.Nb.Text = "N";
+            this.Nb.UseVisualStyleBackColor = true;
             // 
             // lNev
             // 
@@ -143,6 +140,7 @@
             this.btnHozzaad.TabIndex = 9;
             this.btnHozzaad.Text = "Hozzáad";
             this.btnHozzaad.UseVisualStyleBackColor = true;
+            this.btnHozzaad.Click += new System.EventHandler(this.btnHozzaad_Click);
             // 
             // lszuldat
             // 
@@ -166,26 +164,43 @@
             // lkedvenhobbi
             // 
             this.lkedvenhobbi.AutoSize = true;
-            this.lkedvenhobbi.Location = new System.Drawing.Point(437, 67);
+            this.lkedvenhobbi.Location = new System.Drawing.Point(447, 68);
             this.lkedvenhobbi.Name = "lkedvenhobbi";
             this.lkedvenhobbi.Size = new System.Drawing.Size(82, 13);
             this.lkedvenhobbi.TabIndex = 12;
             this.lkedvenhobbi.Text = "Kedvenc hobbi:";
+            // 
+            // dateTimePickerszuldat
+            // 
+            this.dateTimePickerszuldat.Location = new System.Drawing.Point(305, 61);
+            this.dateTimePickerszuldat.Name = "dateTimePickerszuldat";
+            this.dateTimePickerszuldat.Size = new System.Drawing.Size(126, 20);
+            this.dateTimePickerszuldat.TabIndex = 13;
+            // 
+            // lujhobbi
+            // 
+            this.lujhobbi.AutoSize = true;
+            this.lujhobbi.Location = new System.Drawing.Point(373, 206);
+            this.lujhobbi.Name = "lujhobbi";
+            this.lujhobbi.Size = new System.Drawing.Size(51, 13);
+            this.lujhobbi.TabIndex = 14;
+            this.lujhobbi.Text = "Új Hobbi:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 379);
+            this.Controls.Add(this.lujhobbi);
+            this.Controls.Add(this.dateTimePickerszuldat);
             this.Controls.Add(this.lkedvenhobbi);
             this.Controls.Add(this.lnem);
             this.Controls.Add(this.lszuldat);
             this.Controls.Add(this.btnHozzaad);
             this.Controls.Add(this.lNev);
-            this.Controls.Add(this.Rb);
+            this.Controls.Add(this.Nb);
             this.Controls.Add(this.Fb);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.text);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -205,15 +220,16 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox text;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RadioButton Fb;
-        private System.Windows.Forms.RadioButton Rb;
+        private System.Windows.Forms.RadioButton Nb;
         private System.Windows.Forms.Label lNev;
         private System.Windows.Forms.Button btnHozzaad;
         private System.Windows.Forms.Label lszuldat;
         private System.Windows.Forms.Label lnem;
         private System.Windows.Forms.Label lkedvenhobbi;
+        private System.Windows.Forms.DateTimePicker dateTimePickerszuldat;
+        private System.Windows.Forms.Label lujhobbi;
     }
 }
 
