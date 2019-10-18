@@ -16,27 +16,7 @@ namespace _13T_OpenSave
         public Form1()
         {
             InitializeComponent();
-            openFileDialog1.FileOk += (sender, e) =>
-
-            {
-                try
-                {
-                    using (var sr = new StreamReader(openFileDialog1.FileName))
-                    {
-                        lista.Items.Clear();
-                        while (!sr.EndOfStream)
-                        {
-                            lista.Items.Add(sr.ReadLine());
-                        }
-                    }
-                }
-                catch (IOException)
-                {
-
-                    MessageBox.Show("Hiba! Nem Sikerült a betöltés!");
-                }
-
-            };
+           
 
             lista.Items.Add("Úszás");
             lista.Items.Add("Horgászat");
@@ -102,15 +82,18 @@ namespace _13T_OpenSave
                 MessageBox.Show("Hiba. Sikertelen mentés");
             }
 
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
+
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+
             try
             {
                 using (var sr = new StreamReader(openFileDialog1.FileName))
@@ -142,12 +125,16 @@ namespace _13T_OpenSave
                         lista.Items.Add(kedvencHobbi);
                         lista.SelectedItem = kedvencHobbi;
                     }
+
                 }
+
             }
             catch (IOException)
             {
                 MessageBox.Show("Hiba sikertelen mentés!");
             }
+
+
         }
 
         private void lszuldat_Click(object sender, EventArgs e)
